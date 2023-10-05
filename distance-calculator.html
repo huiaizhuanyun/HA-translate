@@ -13,30 +13,37 @@
     <p id="result"></p>
 
     <script>
-        function calculateDistance() {
-            const destinationInput = document.getElementById('destination').value;
+     function calculateDistance() {
+    const destinationInput = document.getElementById('destination').value;
+    console.log("输入的目的地：", destinationInput);  // 输出用户输入的目的地
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const currentLocation = [position.coords.longitude, position.coords.latitude];
-                    const geocoder = new AMap.Geocoder();
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const currentLocation = [position.coords.longitude, position.coords.latitude];
+            console.log("当前位置：", currentLocation);  // 输出获取到的用户当前位置
 
-                    geocoder.getLocation(destinationInput, function(status, result) {
-                        if (status === 'complete' && result.info === 'OK') {
-                            const destinationLocation = result.geocodes[0].location;
-                            const distance = AMap.GeometryUtil.distance(currentLocation, [destinationLocation.lng, destinationLocation.lat]);
-                            document.getElementById('result').innerText = '距离: ' + (distance / 1000).toFixed(2) + ' 公里';
-                        } else {
-                            alert('无法找到该地址: ' + status);
-                        }
-                    });
-                }, () => {
-                    alert('获取位置失败');
-                });
-            } else {
-                alert('您的浏览器不支持地理定位。');
-            }
-        }
+            const geocoder = new AMap.Geocoder();
+            geocoder.getLocation(destinationInput, function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    const destinationLocation = result.geocodes[0].location;
+                    console.log("目的地经纬度：", destinationLocation);  // 输出解析得到的目的地经纬度
+                    
+                    const distance = AMap.GeometryUtil.distance(currentLocation, [destinationLocation.lng, destinationLocation.lat]);
+                    console.log("计算的距离：", distance);  // 输出计算得到的距离
+
+                    document.getElementById('result').innerText = '距离: ' + (distance / 1000).toFixed(2) + ' 公里';
+                } else {
+                    alert('无法找到该地址: ' + status);
+                }
+            });
+        }, () => {
+            alert('获取位置失败');
+        });
+    } else {
+        alert('您的浏览器不支持地理定位。');
+    }
+}
+
     </script>
 </body>
 </html>
