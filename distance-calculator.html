@@ -12,8 +12,11 @@
     <button onclick="calculateDistance()">计算距离</button>
     <p id="result"></p>
 
-    <script>
-     function calculateDistance() {
+   <script>
+AMap.plugin('AMap.Geocoder', function() {
+    // 在这里，我们确保Geocoder插件已经加载完毕
+
+    function calculateDistance() {
     const destinationInput = document.getElementById('destination').value;
     console.log("输入的目的地：", destinationInput);  // 输出用户输入的目的地
 
@@ -44,6 +47,9 @@
     }
 }
 
-    </script>
+    window.calculateDistance = calculateDistance; // 将函数添加到全局作用域，以便HTML中的按钮可以访问
+});
+</script>
+
 </body>
 </html>
