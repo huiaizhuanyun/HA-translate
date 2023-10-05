@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算距离</title>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=7f8a5f3bbb741278ca9ad3c2beacd2e3"></script>
+</head>
+<body>
+    <h1>计算距离</h1>
+    <input type="text" id="destination" placeholder="请输入目的地">
+    <button onclick="calculateDistance()">计算距离</button>
+    <p id="result"></p>
+
+    <script>
+        function initAMap() {
+            function calculateDistance() {
+                const destinationInput = document.getElementById('destination').value;
+                console.log("输入的目的地：", destinationInput);
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        const currentLocation = [position.coords.longitude, position.coords.latitude];
+                        console.log("当前位置：", currentLocation);
+
+                        const geocoder = new AMap.Geocoder();
+                        geocoder.getLocation(destinationInput, function(status, result) {
+                            if (status === 'complete' && result.info === 'OK') {
+                                const destinationLocation = result.geocodes[0].location;
+                                console.log("目的地经纬度：", destinationLocation);
+                    
+                                const distance = AMap.GeometryUtil.distance(currentLocation, [destinationLocation.lng, destinationLocation.lat]);
+                                console.log("计算的距离：", distance);
+
+                                document.getElementById('result').innerText = '距离: ' + (distance / 1000).toFixed(2) + ' 公里';
+                            } else {
+                                alert('无法找到该地址: ' + status);
+                            }
+                        });
+                    }, () => {
+                        alert('获取位置失败');
+                    });
+                } else {
+                    alert('您的浏览器不支持地理定位。');
+                }
+            }
+
+            document.querySelector('button').addEventListener('click', calculateDistance);
+        }
+
+        AMap.onLoad(initAMap);
+    </script>
+</body>
+</html>
