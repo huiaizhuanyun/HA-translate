@@ -13,13 +13,10 @@
     <button onclick="calculateDistance()">计算距离</button>
     <p id="result"></p>
 
- <script>
-// 初始化AMapUI，确保所有插件加载完成
-AMapUI.loadUI(['geo/DistrictExplorer'], function(DistrictExplorer) {
-
+<script>
     function calculateDistance() {
-        const destinationInput = document.getElementById('destination').value;
-        console.log("输入的目的地：", destinationInput);
+        const destinationInput = "北京天安门";  // 固定的地址，用于测试
+        console.log("测试的目的地：", destinationInput);
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
@@ -47,11 +44,6 @@ AMapUI.loadUI(['geo/DistrictExplorer'], function(DistrictExplorer) {
             alert('您的浏览器不支持地理定位。');
         }
     }
-
-    window.calculateDistance = calculateDistance; // 将函数添加到全局作用域
-
-});
-
 </script>
 
 </body>
