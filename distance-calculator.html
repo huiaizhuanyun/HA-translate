@@ -253,9 +253,9 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     var ventilatorCost = 0;
     if (document.getElementById('ventilator').checked) {
         if (distance <= 20) {
-            ventilatorCost = 600;
-        } else if (distance <= 150) {
             ventilatorCost = 800;
+        } else if (distance <= 150) {
+            ventilatorCost = 1000;
         } else {
             ventilatorCost = 150 * 5 + (distance - 150) * 5;
         }
