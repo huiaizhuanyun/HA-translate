@@ -93,10 +93,6 @@
         <input type="checkbox" id="waiting_fee" name="services" value="waiting_fee">
         <label for="waiting_fee">等待费（预收300元，20min免费，超过8元/min）</label><br>
 
-    <h4>手写签名:</h4>
-<canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas>
-<button id="clear">清除签名</button>
-<button id="save">保存签名</button>
     <h3>辅助服务:</h3>
     <div>
         <input type="checkbox" id="oxygen" name="services" value="oxygen">
@@ -137,7 +133,10 @@
 </form>
 
 <div id="resultSection"></div>
-
+    <h4>手写签名:</h4>
+<canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas>
+<button id="clear">清除签名</button>
+<button id="save">保存签名</button>
 <script>
     window.onload = function() {
     // 调整canvas的内部尺寸以匹配其显示尺寸
