@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>汇爱医疗救援护送</title>
@@ -133,34 +132,8 @@
 </form>
 
 <div id="resultSection"></div>
-<h3>手写签名:</h3>
-<canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas>
-<button id="clear">清除签名</button>
-<button id="save">保存签名</button>
+
 <script>
-    window.onload = function() {
-    // 调整canvas的内部尺寸以匹配其显示尺寸
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    
-    // 初始化SignaturePad
-    const signaturePad = new SignaturePad(canvas);
-
-    document.getElementById('clear').addEventListener('click', function() {
-        signaturePad.clear();
-    });
-
-    document.getElementById('save').addEventListener('click', function() {
-        if (signaturePad.isEmpty()) {
-            alert("请签名后再保存");
-        } else {
-            const data = signaturePad.toDataURL();
-            console.log(data);  // 这里，您可以看到签名的数据URL
-            // 根据您的需要进一步处理这个数据，比如发送到服务器或保存到本地。
-        }
-    });
-}
-    
 document.getElementById('chargeCalculator').onsubmit = function(event) {
     event.preventDefault();
     
@@ -311,23 +284,6 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     var spaceBlanketCost = spaceBlanketOption * 100; // 每条100元
     totalCost += spaceBlanketCost;
     serviceCostDetails += '太空被: ' + spaceBlanketCost + '元<br>';
-    // 这里开始是关于签名板的代码
-const canvas = document.getElementById('signature-pad');
-const signaturePad = new SignaturePad(canvas);
-
-document.getElementById('clear').addEventListener('click', function() {
-    signaturePad.clear();
-});
-
-document.getElementById('save').addEventListener('click', function() {
-    if (signaturePad.isEmpty()) {
-        alert("请签名后再保存");
-    } else {
-        const data = signaturePad.toDataURL();
-        console.log(data);  // 这里，您可以看到签名的数据URL
-        // 根据您的需要进一步处理这个数据，比如发送到服务器或保存到本地。
-    }
-});
 
     // 显示费用明细和总费用
     var resultSection = document.getElementById('resultSection');
