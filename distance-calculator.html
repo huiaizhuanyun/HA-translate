@@ -315,20 +315,6 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     var resultSection = document.getElementById('resultSection');
     resultSection.innerHTML = '<h2>费用明细:</h2>' + serviceCostDetails + '<h2>总费用: ' + totalCost + '元</h2>';
 };
-        // 这里开始是关于签名板的代码
-document.getElementById('clear').addEventListener('click', function() {
-    signaturePad.clear();
-});
-
-document.getElementById('save').addEventListener('click', function() {
-    if (signaturePad.isEmpty()) {
-        alert("请签名后再保存");
-    } else {
-        const data = signaturePad.toDataURL();
-        console.log(data);  // 这里，您可以看到签名的数据URL
-        // 根据您的需要进一步处理这个数据，比如发送到服务器或保存到本地。
-    }
-});
 </script>
 </body>
 </html>
