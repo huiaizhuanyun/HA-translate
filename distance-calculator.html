@@ -121,6 +121,9 @@
     <label for="non_reservation">非预约用车费:</label>
     <input type="checkbox" id="non_reservation" name="services" value="non_reservation"><br><br>
 
+    <label for="yuanji_patient">院际交接附加费:</label>
+    <input type="checkbox" id="yuanji_patient" name="services" value="yuanji_patient"><br><br>
+    
     <label for="critical_patient">无行为能力附加费:</label>
     <input type="checkbox" id="critical_patient" name="services" value="critical_patient"><br><br>
 
@@ -262,6 +265,18 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         serviceCostDetails += '非预约用车费: ' + nonReservationFee + '元<br>';
     }
 
+     // 院际附加费计算
+    var yuanji_patientFee = 0;
+    if (document.getElementById('yuanji_patient').checked) {
+        if (distance <= 50) {
+            yuanji_patientFee = 300;
+        } else {
+            yuanji_patientFee = 500;
+        }
+    }
+    totalCost += yuanji_patientFee;
+    serviceCostDetails += '院际交接附加费: ' + yuanji_patientFee + '元<br>';
+    
     // 濒危病人附加费计算
     var criticalPatientFee = 0;
     if (document.getElementById('critical_patient').checked) {
