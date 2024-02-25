@@ -134,13 +134,20 @@
         <option value="two">2位</option>
     </select><br><br>
 
-    <label for="night_transfer">晚间转运费:</label>
+    <label for="night_transfer">晚间转运费（20点-7点）:</label>
     <select name="night_transfer" id="night_transfer">
         <option value="none">无</option>
         <option value="one">1人</option>
         <option value="two">2人</option>
     </select><br><br>
 
+    <label for="jiari_transfer">假日转运费（周六、周日、法定节假日）:</label>
+    <select name="jiari_transfer" id="jiari_transfer">
+        <option value="none">无</option>
+        <option value="one">1人</option>
+        <option value="two">2人</option>
+    </select><br><br>
+    
         <input type="checkbox" id="waiting_fee" name="services" value="waiting_fee">
         <label for="waiting_fee">等待费（预收300元，20min免费，超过8元/min）</label><br>
 
@@ -319,6 +326,17 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     }
     totalCost += nightTransferCost;
     serviceCostDetails += '晚间转运费: ' + nightTransferCost + '元<br>';
+
+    // 假日转运费计算
+    var jiariTransferOption = document.getElementById('jiari_transfer').value;
+    var jiariTransferCost = 0;
+    if (jiariTransferOption === 'one') {
+        jiariTransferCost = 100;
+    } else if (jiariTransferOption === 'two') {
+        jiariTransferCost = 200;
+    }
+    totalCost += jiariTransferCost;
+    serviceCostDetails += '假日转运费: ' + jiariTransferCost + '元<br>';
 
     // 其他固定费用服务
     var additionalServices = [
