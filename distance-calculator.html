@@ -147,13 +147,13 @@
     <h3>辅助服务:</h3>
     <div>
         <input type="checkbox" id="oxygen" name="services" value="oxygen">
-        <label for="oxygen">吸氧费 （ 每公里1元）</label><br>
+        <label for="oxygen">吸氧费 （ 每公里2元）</label><br>
         
         <input type="checkbox" id="ecg_monitoring" name="services" value="ecg_monitoring">
-        <label for="ecg_monitoring">心电监护 （ 每公里2元）</label><br>
+        <label for="ecg_monitoring">心电监护 （ 每公里3元）</label><br>
         
         <input type="checkbox" id="infusion_pump" name="services" value="infusion_pump">
-        <label for="infusion_pump">微量泵 （ 每公里2元）</label><br>
+        <label for="infusion_pump">微量泵 （ 每公里3元）</label><br>
         
         <input type="checkbox" id="sputum_suction_machine" name="services" value="sputum_suction_machine">
         <label for="sputum_suction_machine">吸痰器 （ 100元/次）</label><br>
@@ -322,9 +322,9 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
 
     // 其他固定费用服务
     var additionalServices = [
-        {id: 'oxygen', costPerKm: 1, name: '吸氧费'},
-        {id: 'ecg_monitoring', costPerKm: 2, name: '心电监护'},
-        {id: 'infusion_pump', costPerKm: 2, name: '微量泵'}
+        {id: 'oxygen', costPerKm: 2, name: '吸氧费'},
+        {id: 'ecg_monitoring', costPerKm: 3, name: '心电监护'},
+        {id: 'infusion_pump', costPerKm: 3, name: '微量泵'}
     ];
 
     additionalServices.forEach(function(service) {
