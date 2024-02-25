@@ -265,9 +265,7 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     // 濒危病人附加费计算
     var criticalPatientFee = 0;
     if (document.getElementById('critical_patient').checked) {
-        if (distance <= 25) {
-            criticalPatientFee = 200;
-        } else if (distance <= 50) {
+        if (distance <= 50) {
             criticalPatientFee = 300;
         } else if (distance <= 72) {
             criticalPatientFee = 400;
