@@ -121,6 +121,9 @@
     <label for="non_reservation">非预约用车费:</label>
     <input type="checkbox" id="non_reservation" name="services" value="non_reservation"><br><br>
 
+    <label for="beifen_reservation">备份车辆随行:</label>
+    <input type="checkbox" id="beifen_reservation" name="services" value="beifen_reservation"><br><br>
+    
     <label for="yuanji_patient">院际交接附加费:</label>
     <input type="checkbox" id="yuanji_patient" name="services" value="yuanji_patient"><br><br>
     
@@ -265,6 +268,12 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         serviceCostDetails += '非预约用车费: ' + nonReservationFee + '元<br>';
     }
 
+    // 备份车费计算
+    if (document.getElementById('beifen_reservation').checked) {
+        var beifen_reservationFee = transferCost * 0.6+distance * 0.5; 
+        totalCost += beifen_reservationFee;
+        serviceCostDetails += '备份车辆随行: ' + beifen_reservationFee + '元<br>';
+    }
      // 院际附加费计算
     var yuanji_patientFee = 0;
     if (document.getElementById('yuanji_patient').checked) {
