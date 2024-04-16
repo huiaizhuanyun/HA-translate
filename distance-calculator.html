@@ -265,7 +265,7 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     if (document.getElementById('non_reservation').checked) {
         var nonReservationFee = transferCost * 0.1;  // 使用转运车费计算
         totalCost += nonReservationFee;
-        serviceCostDetails += '非预约用车费: ' + nonReservationFee + '元<br>';
+        serviceCostDetails += '非预约用车费（低）: ' + nonReservationFee + '元<br>';
     }
 
     // 备份车费计算
@@ -284,7 +284,7 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         }
     }
     totalCost += yuanji_patientFee;
-    serviceCostDetails += '院际交接附加费: ' + yuanji_patientFee + '元<br>';
+    serviceCostDetails += '院际交接附加费（低）: ' + yuanji_patientFee + '元<br>';
     
     // 濒危病人附加费计算
     var criticalPatientFee = 0;
@@ -347,7 +347,7 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         nightTransferCost = 200;
     }
     totalCost += nightTransferCost;
-    serviceCostDetails += '晚间转运费: ' + nightTransferCost + '元<br>';
+    serviceCostDetails += '晚间转运费（低）: ' + nightTransferCost + '元<br>';
 
     // 假日转运费计算
     var jiariTransferOption = document.getElementById('jiari_transfer').value;
@@ -358,11 +358,11 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         jiariTransferCost = 200;
     }
     totalCost += jiariTransferCost;
-    serviceCostDetails += '假日转运费: ' + jiariTransferCost + '元<br>';
+    serviceCostDetails += '假日转运费（低）: ' + jiariTransferCost + '元<br>';
 
     // 其他固定费用服务
     var additionalServices = [
-        {id: 'oxygen', costPerKm: 2, name: '吸氧费'},
+        {id: 'oxygen', costPerKm: 2, name: '吸氧费（低）'},
         {id: 'ecg_monitoring', costPerKm: 3, name: '心电监护'},
         {id: 'infusion_pump', costPerKm: 3, name: '微量泵'}
     ];
@@ -379,7 +379,7 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     var fixedServices = [
         {id: 'sputum_suction_machine', cost: 100, name: '吸痰器'},
         {id: 'handheld_respiratory_bag', cost: 100, name: '手持呼吸气囊'},
-        {id: 'disposable_nasal_cannula', cost: 15, name: '一次性鼻导管'},
+        {id: 'disposable_nasal_cannula', cost: 15, name: '一次性鼻导管（低）'},
         {id: 'defibrillator', cost: 850, name: '体外除颤仪'},
         {id: 'waiting_fee', cost: 300, name: '等待费'}
     ];
