@@ -108,29 +108,34 @@
     <img src="汇爱转运(1)(1)(1)(1)(1).png" alt="公司Logo" width="300">
 </div>
 <h1></h1>
-
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <h3>转运车费标准（里程需按往返计费）：</h3>
+    <p>450元(含3KM)，多出部分9元/KM（48KM内）</p>
+    <p>1300元 （49-72KM）</p>
+    <p>9元/KM （72KM以上）</p>
+</div>
 <form id="chargeCalculator">
-    <label for="distance">输入公里数 (km):</label>
+    <label for="distance"> 输入公里数 (km):</label>
     <input type="number" id="distance" name="distance"><br><br>
     
     <h2>转运服务:</h2>
     
-    <label for="toll">路桥费:</label>
+    <label for="toll">路桥费（单程里程*0.5）:</label>
     <input type="checkbox" id="toll" name="services" value="toll"><br><br>
     
-    <label for="non_reservation">非预约用车费:</label>
+    <label for="non_reservation">非预约用车费（需提前一天17点前预约，转运车费*0.1）:</label>
     <input type="checkbox" id="non_reservation" name="services" value="non_reservation"><br><br>
 
-    <label for="beifen_reservation">备份车辆随行:</label>
+    <label for="beifen_reservation">备份车辆随行（转运车费*0.6）:</label>
     <input type="checkbox" id="beifen_reservation" name="services" value="beifen_reservation"><br><br>
     
-    <label for="yuanji_patient">院际交接附加费:</label>
+    <label for="yuanji_patient">院际交接附加费（对接到急诊或指定病房，许昌内10元，许昌外30元）:</label>
     <input type="checkbox" id="yuanji_patient" name="services" value="yuanji_patient"><br><br>
     
-    <label for="critical_patient">无行为能力附加费:</label>
+    <label for="critical_patient">无行为能力附加费（无意识病人，50KM内300元，72KM内400元，150KM内2元/KM，150KM外1元/KM）</label>
     <input type="checkbox" id="critical_patient" name="services" value="critical_patient"><br><br>
 
-    <label for="ventilator">呼吸机:</label>
+    <label for="ventilator">呼吸机:（20KM内800元，150KM内1000元，150KM外5元/KM）</label>
     <input type="checkbox" id="ventilator" name="services" value="ventilator"><br><br>
     
     <label for="medical_staff">医护随车:</label>
@@ -155,12 +160,12 @@
     </select><br><br>
     
         <input type="checkbox" id="waiting_fee" name="services" value="waiting_fee">
-        <label for="waiting_fee">等待费（预收300元，20min免费，超过8元/min）</label><br>
+        <label for="waiting_fee">等待费（预收300元，20min免费，超过40元/5min，不满5min按5min计）</label><br>
 
     <h3>辅助服务:</h3>
     <div>
         <input type="checkbox" id="oxygen" name="services" value="oxygen">
-        <label for="oxygen">吸氧费 （ 每公里2元）</label><br>
+        <label for="oxygen">吸氧费 （ 每公里1元）</label><br>
         
         <input type="checkbox" id="ecg_monitoring" name="services" value="ecg_monitoring">
         <label for="ecg_monitoring">心电监护 （ 每公里3元）</label><br>
@@ -172,10 +177,10 @@
         <label for="sputum_suction_machine">吸痰器 （ 100元/次）</label><br>
         
         <input type="checkbox" id="handheld_respiratory_bag" name="services" value="handheld_respiratory_bag">
-        <label for="handheld_respiratory_bag">手持呼吸气囊 （ 100元/趟）</label><br>
+        <label for="handheld_respiratory_bag">手持呼吸气囊 （ 200元/趟）</label><br>
         
         <input type="checkbox" id="disposable_nasal_cannula" name="services" value="disposable_nasal_cannula">
-        <label for="disposable_nasal_cannula">一次性鼻导管（15元/根）</label><br>
+        <label for="disposable_nasal_cannula">一次性鼻导管（5元/根）</label><br>
         
         <input type="checkbox" id="defibrillator" name="services" value="defibrillator">
         <label for="defibrillator">体外除颤仪 （850元/次）</label><br>
@@ -243,10 +248,8 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
 
     // 转运车费计算
     var transferCost = 0;
-    if (distance <= 20) {
+    if (distance <= 48) {
         transferCost = 450 + Math.max(0, (distance * 2 - 3)) * 9;
-    } else if (distance <= 50) {
-        transferCost = 500 + Math.max(0, (distance * 2 - 3)) * 9;
     } else if (distance <= 72) {
         transferCost = distance*0+1300;
      } else {
@@ -278,9 +281,9 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     var yuanji_patientFee = 0;
     if (document.getElementById('yuanji_patient').checked) {
         if (distance <= 50) {
-            yuanji_patientFee = 90;
+            yuanji_patientFee = 10;
         } else {
-            yuanji_patientFee = 180;
+            yuanji_patientFee = 30;
         }
     }
     totalCost += yuanji_patientFee;
@@ -353,16 +356,16 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     var jiariTransferOption = document.getElementById('jiari_transfer').value;
     var jiariTransferCost = 0;
     if (jiariTransferOption === 'one') {
-        jiariTransferCost = 100;
+        jiariTransferCost = 50;
     } else if (jiariTransferOption === 'two') {
-        jiariTransferCost = 200;
+        jiariTransferCost = 100;
     }
     totalCost += jiariTransferCost;
     serviceCostDetails += '假日转运费（低）: ' + jiariTransferCost + '元<br>';
 
     // 其他固定费用服务
     var additionalServices = [
-        {id: 'oxygen', costPerKm: 2, name: '吸氧费（低）'},
+        {id: 'oxygen', costPerKm: 1, name: '吸氧费（低）'},
         {id: 'ecg_monitoring', costPerKm: 3, name: '心电监护'},
         {id: 'infusion_pump', costPerKm: 3, name: '微量泵'}
     ];
@@ -378,8 +381,8 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     // 固定费用服务
     var fixedServices = [
         {id: 'sputum_suction_machine', cost: 100, name: '吸痰器'},
-        {id: 'handheld_respiratory_bag', cost: 100, name: '手持呼吸气囊'},
-        {id: 'disposable_nasal_cannula', cost: 15, name: '一次性鼻导管（低）'},
+        {id: 'handheld_respiratory_bag', cost: 200, name: '手持呼吸气囊'},
+        {id: 'disposable_nasal_cannula', cost: 5, name: '一次性鼻导管（低）'},
         {id: 'defibrillator', cost: 850, name: '体外除颤仪'},
         {id: 'waiting_fee', cost: 300, name: '等待费'}
     ];
