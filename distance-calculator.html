@@ -339,15 +339,7 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         } else {
             perPersonCost = 500 + (distance - 400);
         }
-       if (medicalStaffOption === 'one') {
-    medicalStaffCost = 1 * perPersonCost;
-} else if (medicalStaffOption === 'two') {
-    medicalStaffCost = 2 * perPersonCost;
-} else if (medicalStaffOption === 'three') {
-    medicalStaffCost = 3 * perPersonCost;
-} else {
-    medicalStaffCost = 0; // Handle default case if needed
-}
+        medicalStaffCost = (medicalStaffOption === 'one' ? 1 : 3) * perPersonCost;
         totalCost += medicalStaffCost;
         serviceCostDetails += '医护随车费用: ' + medicalStaffCost + '元<br>';
     }
