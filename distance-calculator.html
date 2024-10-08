@@ -339,10 +339,16 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         } else {
             perPersonCost = 500 + (distance - 400);
         }
-        medicalStaffCost = (medicalStaffOption === 'one' ? 1 : 3) * perPersonCost;
-        totalCost += medicalStaffCost;
-        serviceCostDetails += '医护随车费用: ' + medicalStaffCost + '元<br>';
+    var numOfStaff = 1; // 默认为 1 位医护
+    if (medicalStaffOption === 'two') {
+        numOfStaff = 2; // 若选择 2 位
+    } else if (medicalStaffOption === 'three') {
+        numOfStaff = 3; // 若选择 3 位
     }
+    medicalStaffCost = numOfStaff * perPersonCost; // 正确乘以人数
+    totalCost += medicalStaffCost;
+    serviceCostDetails += '医护随车费用: ' + medicalStaffCost + '元<br>';
+}
 
     // 晚间转运费计算
     var nightTransferOption = document.getElementById('night_transfer').value;
