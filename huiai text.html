@@ -380,7 +380,6 @@ document.addEventListener('DOMContentLoaded', function() {
         subsidyApplied = subsidyType !== 0;
 
         var distance = parseFloat(document.getElementById('distance').value);
-        var totalDistance = distance * 2; // 总里程为单程里程的两倍
         var serviceCostDetails = '';
 
         if (isNaN(distance) || distance < 0) {
@@ -390,12 +389,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 转运车费计算
         var transferCost = 0;
-        if (totalDistance <= 48) {
-            transferCost = 450 + Math.max(0, (totalDistance - 3)) * 9;
-        } else if (totalDistance <= 72) {
+        if (distance <= 48) {
+            transferCost = 450 + Math.max(0, (distance * 2 - 3)) * 9;
+        } else if (distance <= 72) {
             transferCost = 1300;
         } else {
-            transferCost = totalDistance * 9;
+            transferCost = distance * 2 * 9;
         }
         totalCost += transferCost;
         serviceCostDetails += '转运车费: ' + transferCost.toFixed(2) + '元<br>';
@@ -436,9 +435,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (distance <= 72) {
                 criticalPatientFee = 400;
             } else if (distance <= 150) {
-                criticalPatientFee = totalDistance * 2;
+                criticalPatientFee = distance * 2 * 2;
             } else {
-                criticalPatientFee = totalDistance * 1;
+                criticalPatientFee = distance * 2;
             }
             totalCost += criticalPatientFee;
             serviceCostDetails += '无行为能力病人附加费: ' + criticalPatientFee.toFixed(2) + '元<br>';
@@ -452,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (distance <= 150) {
                 ventilatorCost = 1000;
             } else {
-                ventilatorCost = totalDistance * 5;
+                ventilatorCost = distance * 2 * 5;
             }
             totalCost += ventilatorCost;
             serviceCostDetails += '呼吸机费用: ' + ventilatorCost.toFixed(2) + '元<br>';
@@ -501,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         additionalServices.forEach(function(service) {
             if (document.getElementById(service.id).checked) {
-                var serviceCost = totalDistance * service.costPerKm;
+                var serviceCost = distance * 2 * service.costPerKm;
                 totalCost += serviceCost;
                 serviceCostDetails += service.name + ': ' + serviceCost.toFixed(2) + '元<br>';
                 if (service.low) {
@@ -662,5 +661,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
-
