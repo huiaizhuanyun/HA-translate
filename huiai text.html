@@ -291,6 +291,15 @@
             <div class="service-explanation">（850元/次）</div>
         </div>
 
+        <!-- 添加备份车辆随行项目 -->
+        <div class="service-item">
+            <input type="checkbox" id="beifen_reservation" name="services" value="beifen_reservation">
+            <label for="beifen_reservation">
+                <span class="item-name">备份车辆随行</span>
+            </label>
+            <div class="service-explanation">（转运车费*0.6）</div>
+        </div>
+
         <div class="service-item">
             <label for="stairs">
                 <span class="item-name">上楼楼层数:</span>
@@ -330,7 +339,6 @@
 <img src="huiaishoukuan.jpg" alt="签名照片" width="300">
 <canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas>
 <button id="clear" class="button">清除签名</button>
-<button id="save" class="button">保存签名</button>
 <button id="savePdf" class="button">保存为 PDF</button>
 
 <script>
@@ -343,15 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('clear').addEventListener('click', function() {
         signaturePad.clear();
-    });
-
-    document.getElementById('save').addEventListener('click', function() {
-        if (signaturePad.isEmpty()) {
-            alert("请签名后再保存");
-        } else {
-            const data = signaturePad.toDataURL();
-            console.log(data);  // 您可以在此处理签名数据
-        }
     });
 
     // 保存为 PDF 功能
@@ -429,21 +428,21 @@ document.addEventListener('DOMContentLoaded', function() {
             transferCost = distance * 2 * 9;
         }
         totalCost += transferCost;
-        serviceCostDetails += '转运车费: ' + transferCost.toFixed(2) + '元<br>';
+        serviceCostDetails += '转运车费: ' + formatAmount(transferCost) + '元<br>';
 
         // 路桥费计算
         if (document.getElementById('toll').checked) {
             var tollFee = distance * 0.5;
             totalCost += tollFee;
-            serviceCostDetails += '路桥费: ' + tollFee.toFixed(2) + '元<br>';
+            serviceCostDetails += '路桥费: ' + formatAmount(tollFee) + '元<br>';
         }
 
         // 非预约用车费计算
         if (document.getElementById('non_reservation').checked) {
             var nonReservationFee = transferCost * 0.1;
             totalCost += nonReservationFee;
-            serviceCostDetails += '非预约用车费（低）: ' + nonReservationFee.toFixed(2) + '元<br>';
-            lowServices.push({name: '非预约用车费（低）', cost: nonReservationFee});
+            serviceCostDetails += '非预约用车费: ' + formatAmount(nonReservationFee) + '元<br>';
+            lowServices.push({name: '非预约用车费', cost: nonReservationFee});
         }
 
         // 院际附加费计算
@@ -455,8 +454,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 yuanji_patientFee = 30;
             }
             totalCost += yuanji_patientFee;
-            serviceCostDetails += '院际交接附加费（低）: ' + yuanji_patientFee.toFixed(2) + '元<br>';
-            lowServices.push({name: '院际交接附加费（低）', cost: yuanji_patientFee});
+            serviceCostDetails += '院际交接附加费: ' + formatAmount(yuanji_patientFee) + '元<br>';
+            lowServices.push({name: '院际交接附加费', cost: yuanji_patientFee});
         }
 
         // 无行为能力病人附加费计算
@@ -472,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 criticalPatientFee = distance * 2;
             }
             totalCost += criticalPatientFee;
-            serviceCostDetails += '无行为能力病人附加费: ' + criticalPatientFee.toFixed(2) + '元<br>';
+            serviceCostDetails += '无行为能力病人附加费: ' + formatAmount(criticalPatientFee) + '元<br>';
         }
 
         // 呼吸机费用计算
@@ -486,14 +485,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 ventilatorCost = distance * 2 * 5;
             }
             totalCost += ventilatorCost;
-            serviceCostDetails += '呼吸机费用: ' + ventilatorCost.toFixed(2) + '元<br>';
+            serviceCostDetails += '呼吸机费用: ' + formatAmount(ventilatorCost) + '元<br>';
         }
 
         // 等待费
         if (document.getElementById('waiting_fee').checked) {
             var waitingFee = 300;
             totalCost += waitingFee;
-            serviceCostDetails += '等待费: ' + waitingFee.toFixed(2) + '元<br>';
+            serviceCostDetails += '等待费: ' + formatAmount(waitingFee) + '元<br>';
         }
 
         // 医护随车费用计算
@@ -520,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             medicalStaffCost = numOfStaff * perPersonCost;
             totalCost += medicalStaffCost;
-            serviceCostDetails += '医护随车费用: ' + medicalStaffCost.toFixed(2) + '元<br>';
+            serviceCostDetails += '医护随车费用: ' + formatAmount(medicalStaffCost) + '元<br>';
         }
 
         // 自动计算晚间转运费
@@ -533,8 +532,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isNightTime) {
             var nightTransferCost = 100;
             totalCost += nightTransferCost;
-            serviceCostDetails += '晚间转运费（低）: ' + nightTransferCost.toFixed(2) + '元（时间：' + currentTimeStr + '）<br>';
-            lowServices.push({name: '晚间转运费（低）', cost: nightTransferCost});
+            serviceCostDetails += '晚间转运费: ' + formatAmount(nightTransferCost) + '元（时间：' + currentTimeStr + '）<br>';
+            lowServices.push({name: '晚间转运费', cost: nightTransferCost});
         }
 
         // 自动计算假日转运费
@@ -543,22 +542,22 @@ document.addEventListener('DOMContentLoaded', function() {
             var jiariTransferCost = 50;
             totalCost += jiariTransferCost;
             var dayStr = now.getDay() === 6 ? '周六' : '周日';
-            serviceCostDetails += '假日转运费（低）: ' + jiariTransferCost.toFixed(2) + '元（' + dayStr + '）<br>';
-            lowServices.push({name: '假日转运费（低）', cost: jiariTransferCost});
+            serviceCostDetails += '假日转运费: ' + formatAmount(jiariTransferCost) + '元（' + dayStr + '）<br>';
+            lowServices.push({name: '假日转运费', cost: jiariTransferCost});
         }
 
         // 辅助服务计算
         var additionalServices = [
-            {id: 'oxygen', costPerKm: 1, name: '吸氧费（低）', low: true},
+            {id: 'oxygen', costPerKm: 1, name: '吸氧费', low: true},
             {id: 'ecg_monitoring', costPerKm: 3, name: '心电监护', low: false},
             {id: 'infusion_pump', costPerKm: 3, name: '微量泵', low: false}
         ];
 
         additionalServices.forEach(function(service) {
             if (document.getElementById(service.id).checked) {
-                var serviceCost = distance * 2 * service.costPerKm;
+                var serviceCost = distance * service.costPerKm; // 单程里程
                 totalCost += serviceCost;
-                serviceCostDetails += service.name + ': ' + serviceCost.toFixed(2) + '元<br>';
+                serviceCostDetails += service.name + ': ' + formatAmount(serviceCost) + '元<br>';
                 if (service.low) {
                     lowServices.push({name: service.name, cost: serviceCost});
                 }
@@ -569,26 +568,33 @@ document.addEventListener('DOMContentLoaded', function() {
         var fixedServices = [
             {id: 'sputum_suction_machine', cost: 100, name: '吸痰器', low: false},
             {id: 'handheld_respiratory_bag', cost: 200, name: '手持呼吸气囊', low: false},
-            {id: 'disposable_nasal_cannula', cost: 5, name: '一次性鼻导管（低）', low: true},
+            {id: 'disposable_nasal_cannula', cost: 5, name: '一次性鼻导管', low: true},
             {id: 'defibrillator', cost: 850, name: '体外除颤仪', low: false}
         ];
 
         fixedServices.forEach(function(service) {
             if (document.getElementById(service.id).checked) {
                 totalCost += service.cost;
-                serviceCostDetails += service.name + ': ' + service.cost.toFixed(2) + '元<br>';
+                serviceCostDetails += service.name + ': ' + formatAmount(service.cost) + '元<br>';
                 if (service.low) {
                     lowServices.push({name: service.name, cost: service.cost});
                 }
             }
         });
 
+        // 备份车辆随行
+        if (document.getElementById('beifen_reservation').checked) {
+            var beifenFee = transferCost * 0.6;
+            totalCost += beifenFee;
+            serviceCostDetails += '备份车辆随行: ' + formatAmount(beifenFee) + '元<br>';
+        }
+
         // 上楼费计算
         var floorNumber = parseInt(document.getElementById('stairs').value, 10);
         if (!isNaN(floorNumber) && floorNumber > 1) {
             var stairsFee = (floorNumber - 1) * 18;
             totalCost += stairsFee;
-            serviceCostDetails += '上楼费: ' + stairsFee.toFixed(2) + '元<br>';
+            serviceCostDetails += '上楼费: ' + formatAmount(stairsFee) + '元<br>';
         }
 
         // 太空被费用计算
@@ -596,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var spaceBlanketCost = spaceBlanketOption * 100;
         if (spaceBlanketCost > 0) {
             totalCost += spaceBlanketCost;
-            serviceCostDetails += '太空被: ' + spaceBlanketCost.toFixed(2) + '元<br>';
+            serviceCostDetails += '太空被: ' + formatAmount(spaceBlanketCost) + '元<br>';
         }
 
         originalTotalCost = totalCost;
@@ -607,8 +613,8 @@ document.addEventListener('DOMContentLoaded', function() {
             totalCost -= 100;
             if (totalCost < 0) totalCost = 0;
             serviceCostDetails += '<h2>补贴明细:</h2>';
-            serviceCostDetails += '签署感谢信补贴: -100.00元<br>';
-            serviceCostDetails += '<h2>补贴后总费用: ' + totalCost.toFixed(2) + '元</h2>';
+            serviceCostDetails += '签署感谢信补贴: -100元<br>';
+            serviceCostDetails += '<h2>补贴后总费用: ' + formatAmount(totalCost) + '元</h2>';
         } else if (subsidyType == 2) {
             // 选项2：应用现有补贴
             var totalSubsidy = 0;
@@ -619,13 +625,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (totalCost < 0) totalCost = 0;
             serviceCostDetails += '<h2>补贴明细:</h2>';
             lowServices.forEach(function(service) {
-                serviceCostDetails += service.name + ': -' + service.cost.toFixed(2) + '元<br>';
+                serviceCostDetails += service.name + ': -' + formatAmount(service.cost) + '元<br>';
             });
-            serviceCostDetails += '<h2>补贴金额: ' + totalSubsidy.toFixed(2) + '元</h2>';
-            serviceCostDetails += '<h2>补贴后总费用: ' + totalCost.toFixed(2) + '元</h2>';
+            serviceCostDetails += '<h2>补贴金额: ' + formatAmount(totalSubsidy) + '元</h2>';
+            serviceCostDetails += '<h2>补贴后总费用: ' + formatAmount(totalCost) + '元</h2>';
         } else {
             // 无补贴
-            serviceCostDetails += '<h2>总费用: ' + totalCost.toFixed(2) + '元</h2>';
+            serviceCostDetails += '<h2>总费用: ' + formatAmount(totalCost) + '元</h2>';
         }
 
         // 显示费用明细
@@ -643,6 +649,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('subsidyButton').style.display = 'inline-block';
 
         calculationInitialized = true;
+    }
+
+    // 金额格式化函数
+    function formatAmount(amount) {
+        if (amount % 1 === 0) {
+            return amount.toFixed(0);
+        } else {
+            return amount.toFixed(2);
+        }
     }
 
     document.getElementById('chargeCalculator').onsubmit = function(event) {
