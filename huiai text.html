@@ -22,12 +22,20 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        label {
-            margin-left: 10px;
+        .form-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .form-row label {
+            margin-right: 10px;
+            white-space: nowrap;
         }
         input[type="number"],
         select {
             margin-top: 5px;
+            flex: 1;
+            min-width: 150px;
         }
         input[type="submit"] {
             margin-top: 20px;
@@ -39,6 +47,7 @@
             cursor: pointer;
             font-size: 18px;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
         }
         input[type="submit"]:hover {
             background-color: #357abd;
@@ -152,12 +161,14 @@
     <p>退费标准：若车辆行驶里程未达至目的地里程单程的50%要求原地下车的，则退已收服务费25%（医护费不退），若车辆行驶里程达到去目的地单趟里程的50%以上要求原地下车的，则不退任何费用。</p>
 </div>
 <form id="chargeCalculator">
-    <label for="distance"> 输入单程公里数：</label>
-    <input type="number" id="distance" name="distance" step="0.01" min="0"><br><br>
-    
+    <div class="form-row">
+        <label for="distance">输入单程公里数：</label>
+        <input type="number" id="distance" name="distance" step="0.01" min="0">
+    </div><br>
+
     <div class="service-group">
         <h2>转运服务:</h2>
-        
+
         <div class="service-item">
             <input type="checkbox" id="toll" name="services" value="toll">
             <label for="toll">
@@ -165,7 +176,7 @@
             </label>
             <div class="service-explanation">（单程里程*0.5）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="non_reservation" name="services" value="non_reservation">
             <label for="non_reservation">
@@ -173,15 +184,7 @@
             </label>
             <div class="service-explanation">（需提前一天17点前预约，转运车费*0.1）</div>
         </div>
-    
-        <div class="service-item">
-            <input type="checkbox" id="beifen_reservation" name="services" value="beifen_reservation">
-            <label for="beifen_reservation">
-                <span class="item-name">备份车辆随行</span>
-            </label>
-            <div class="service-explanation">（转运车费*0.6）</div>
-        </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="yuanji_patient" name="services" value="yuanji_patient">
             <label for="yuanji_patient">
@@ -189,7 +192,7 @@
             </label>
             <div class="service-explanation">（对接到急诊或指定病房，许昌内10元，许昌外30元）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="critical_patient" name="services" value="critical_patient">
             <label for="critical_patient">
@@ -197,7 +200,7 @@
             </label>
             <div class="service-explanation">（无意识病人，50KM内300元，72KM内400元，150KM内2元/KM，150KM外1元/KM）</div>
         </div>
-    
+
         <div class="service-item">
             <input type="checkbox" id="ventilator" name="services" value="ventilator">
             <label for="ventilator">
@@ -205,7 +208,15 @@
             </label>
             <div class="service-explanation">（20KM内800元，150KM内1000元，150KM外5元/KM）</div>
         </div>
-        
+
+        <div class="service-item">
+            <input type="checkbox" id="waiting_fee" name="services" value="waiting_fee">
+            <label for="waiting_fee">
+                <span class="item-name">等待费</span>
+            </label>
+            <div class="service-explanation">（预收300元，20min免费，超过40元/5min，不满5min按5min计）</div>
+        </div>
+
         <div class="service-item">
             <label for="medical_staff">
                 <span class="item-name">医护随车</span>
@@ -217,19 +228,11 @@
                 <option value="three">3位</option>
             </select>
         </div>
-    
-        <div class="service-item">
-            <input type="checkbox" id="waiting_fee" name="services" value="waiting_fee">
-            <label for="waiting_fee">
-                <span class="item-name">等待费</span>
-            </label>
-            <div class="service-explanation">（预收300元，20min免费，超过40元/5min，不满5min按5min计）</div>
-        </div>
     </div>
 
     <div class="service-group">
         <h2>辅助服务:</h2>
-        
+
         <div class="service-item">
             <input type="checkbox" id="oxygen" name="services" value="oxygen">
             <label for="oxygen">
@@ -237,7 +240,7 @@
             </label>
             <div class="service-explanation">（每公里1元）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="ecg_monitoring" name="services" value="ecg_monitoring">
             <label for="ecg_monitoring">
@@ -245,7 +248,7 @@
             </label>
             <div class="service-explanation">（每公里3元）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="infusion_pump" name="services" value="infusion_pump">
             <label for="infusion_pump">
@@ -253,7 +256,7 @@
             </label>
             <div class="service-explanation">（每公里3元）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="sputum_suction_machine" name="services" value="sputum_suction_machine">
             <label for="sputum_suction_machine">
@@ -261,7 +264,7 @@
             </label>
             <div class="service-explanation">（100元/次）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="handheld_respiratory_bag" name="services" value="handheld_respiratory_bag">
             <label for="handheld_respiratory_bag">
@@ -269,7 +272,7 @@
             </label>
             <div class="service-explanation">（200元/趟）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="disposable_nasal_cannula" name="services" value="disposable_nasal_cannula">
             <label for="disposable_nasal_cannula">
@@ -277,7 +280,7 @@
             </label>
             <div class="service-explanation">（5元/根）</div>
         </div>
-        
+
         <div class="service-item">
             <input type="checkbox" id="defibrillator" name="services" value="defibrillator">
             <label for="defibrillator">
@@ -285,18 +288,26 @@
             </label>
             <div class="service-explanation">（850元/次）</div>
         </div>
-        
-        <label for="stairs">上楼楼层数:</label>
-        <input type="number" id="stairs" name="stairs" min="0"><br><br>
-    
-        <label for="space_blanket">太空被:</label>
-        <select name="space_blanket" id="space_blanket">
-            <option value="0">0条</option>
-            <option value="1">1条</option>
-            <option value="2">2条</option>
-        </select><br><br>
+
+        <div class="service-item">
+            <label for="stairs">
+                <span class="item-name">上楼楼层数:</span>
+            </label>
+            <input type="number" id="stairs" name="stairs" min="0">
+        </div>
+
+        <div class="service-item">
+            <label for="space_blanket">
+                <span class="item-name">太空被:</span>
+            </label>
+            <select name="space_blanket" id="space_blanket">
+                <option value="0">0条</option>
+                <option value="1">1条</option>
+                <option value="2">2条</option>
+            </select>
+        </div>
     </div>
-    
+
     <input type="submit" value="计算费用">
 </form>
 
@@ -366,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateFee() {
         totalCost = 0;
         lowServices = [];
-        subsidyApplied = false;
+        subsidyApplied = subsidyType !== 0;
 
         var distance = parseFloat(document.getElementById('distance').value);
         var totalDistance = distance * 2; // 总里程为单程里程的两倍
@@ -402,13 +413,6 @@ document.addEventListener('DOMContentLoaded', function() {
             totalCost += nonReservationFee;
             serviceCostDetails += '非预约用车费（低）: ' + nonReservationFee.toFixed(2) + '元<br>';
             lowServices.push({name: '非预约用车费（低）', cost: nonReservationFee});
-        }
-
-        // 备份车费计算
-        if (document.getElementById('beifen_reservation').checked) {
-            var beifen_reservationFee = transferCost * 0.6 + distance * 0.5;
-            totalCost += beifen_reservationFee;
-            serviceCostDetails += '备份车辆随行: ' + beifen_reservationFee.toFixed(2) + '元<br>';
         }
 
         // 院际附加费计算
@@ -452,6 +456,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             totalCost += ventilatorCost;
             serviceCostDetails += '呼吸机费用: ' + ventilatorCost.toFixed(2) + '元<br>';
+        }
+
+        // 等待费
+        if (document.getElementById('waiting_fee').checked) {
+            var waitingFee = 300;
+            totalCost += waitingFee;
+            serviceCostDetails += '等待费: ' + waitingFee.toFixed(2) + '元<br>';
         }
 
         // 医护随车费用计算
@@ -504,8 +515,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {id: 'sputum_suction_machine', cost: 100, name: '吸痰器', low: false},
             {id: 'handheld_respiratory_bag', cost: 200, name: '手持呼吸气囊', low: false},
             {id: 'disposable_nasal_cannula', cost: 5, name: '一次性鼻导管（低）', low: true},
-            {id: 'defibrillator', cost: 850, name: '体外除颤仪', low: false},
-            {id: 'waiting_fee', cost: 300, name: '等待费', low: false}
+            {id: 'defibrillator', cost: 850, name: '体外除颤仪', low: false}
         ];
 
         fixedServices.forEach(function(service) {
@@ -590,6 +600,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var resultSection = document.getElementById('resultSection');
         resultSection.innerHTML = '<h2>费用明细:</h2>' + serviceCostDetails;
 
+        // 更新补贴按钮文本
+        if (subsidyApplied) {
+            document.getElementById('subsidyButton').innerText = '取消补贴';
+        } else {
+            document.getElementById('subsidyButton').innerText = '专业、快速、省心';
+        }
+
         // 显示补贴按钮
         document.getElementById('subsidyButton').style.display = 'inline-block';
 
@@ -601,10 +618,16 @@ document.addEventListener('DOMContentLoaded', function() {
         calculateFee();
     };
 
-    // 当补贴按钮被点击时，弹出选择框
+    // 当补贴按钮被点击时，弹出选择框或取消补贴
     document.getElementById('subsidyButton').addEventListener('click', function() {
-        calculateFee();
-        document.getElementById('subsidyModal').style.display = 'block';
+        if (subsidyApplied) {
+            // 取消补贴
+            subsidyType = 0;
+            calculateFee();
+        } else {
+            // 显示补贴选项
+            document.getElementById('subsidyModal').style.display = 'block';
+        }
     });
 
     // 选项1：签署感谢信，补贴100元
@@ -639,4 +662,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+
 
