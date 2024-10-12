@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+    <!-- 引入所需的库 -->
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>汇爱医疗救援护送</title>
@@ -227,30 +230,6 @@
                 <option value="three">3位</option>
             </select>
         </div>
-
-        <div class="service-item">
-            <label for="night_transfer">
-                <span class="item-name">晚间转运费</span>
-            </label>
-            <select name="night_transfer" id="night_transfer">
-                <option value="none">无</option>
-                <option value="one">1人</option>
-                <option value="two">2人</option>
-            </select>
-            <div class="service-explanation">（20点-7点）</div>
-        </div>
-
-        <div class="service-item">
-            <label for="jiari_transfer">
-                <span class="item-name">假日转运费</span>
-            </label>
-            <select name="jiari_transfer" id="jiari_transfer">
-                <option value="none">无</option>
-                <option value="one">1人</option>
-                <option value="two">2人</option>
-            </select>
-            <div class="service-explanation">（周六、周日、法定节假日）</div>
-        </div>
     </div>
 
     <div class="service-group">
@@ -352,6 +331,7 @@
 <canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas>
 <button id="clear" class="button">清除签名</button>
 <button id="save" class="button">保存签名</button>
+<button id="savePdf" class="button">保存为 PDF</button>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -372,6 +352,35 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = signaturePad.toDataURL();
             console.log(data);  // 您可以在此处理签名数据
         }
+    });
+
+    // 保存为 PDF 功能
+    document.getElementById('savePdf').addEventListener('click', function() {
+        var element = document.body; // 您可以指定特定的区域
+
+        // 调整 scale 提高清晰度，可能需要根据实际情况调整
+        html2canvas(element, { scale: 2 }).then(function(canvas) {
+            var imgData = canvas.toDataURL('image/jpeg', 1.0);
+            var pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+
+            var imgWidth = 210;
+            var pageHeight = 295;
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var heightLeft = imgHeight;
+            var position = 0;
+
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            pdf.save('费用明细.pdf');
+        });
     });
 
     // 显示或隐藏服务解释
@@ -514,31 +523,27 @@ document.addEventListener('DOMContentLoaded', function() {
             serviceCostDetails += '医护随车费用: ' + medicalStaffCost.toFixed(2) + '元<br>';
         }
 
-        // 晚间转运费计算
-        var nightTransferOption = document.getElementById('night_transfer').value;
-        var nightTransferCost = 0;
-        if (nightTransferOption === 'one') {
-            nightTransferCost = 100;
-        } else if (nightTransferOption === 'two') {
-            nightTransferCost = 200;
-        }
-        totalCost += nightTransferCost;
-        serviceCostDetails += '晚间转运费（低）: ' + nightTransferCost.toFixed(2) + '元<br>';
-        if (nightTransferCost > 0) {
+        // 自动计算晚间转运费
+        var now = new Date();
+        var currentHour = now.getHours();
+        var currentMinute = now.getMinutes();
+        var currentTimeStr = currentHour + ':' + (currentMinute < 10 ? '0' : '') + currentMinute;
+        var isNightTime = (currentHour >= 20 || currentHour < 7);
+
+        if (isNightTime) {
+            var nightTransferCost = 100;
+            totalCost += nightTransferCost;
+            serviceCostDetails += '晚间转运费（低）: ' + nightTransferCost.toFixed(2) + '元（时间：' + currentTimeStr + '）<br>';
             lowServices.push({name: '晚间转运费（低）', cost: nightTransferCost});
         }
 
-        // 假日转运费计算
-        var jiariTransferOption = document.getElementById('jiari_transfer').value;
-        var jiariTransferCost = 0;
-        if (jiariTransferOption === 'one') {
-            jiariTransferCost = 50;
-        } else if (jiariTransferOption === 'two') {
-            jiariTransferCost = 100;
-        }
-        totalCost += jiariTransferCost;
-        serviceCostDetails += '假日转运费（低）: ' + jiariTransferCost.toFixed(2) + '元<br>';
-        if (jiariTransferCost > 0) {
+        // 自动计算假日转运费
+        var isWeekend = (now.getDay() === 0 || now.getDay() === 6); // 0是周日，6是周六
+        if (isWeekend) {
+            var jiariTransferCost = 50;
+            totalCost += jiariTransferCost;
+            var dayStr = now.getDay() === 6 ? '周六' : '周日';
+            serviceCostDetails += '假日转运费（低）: ' + jiariTransferCost.toFixed(2) + '元（' + dayStr + '）<br>';
             lowServices.push({name: '假日转运费（低）', cost: jiariTransferCost});
         }
 
@@ -551,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         additionalServices.forEach(function(service) {
             if (document.getElementById(service.id).checked) {
-                var serviceCost = distance * service.costPerKm;
+                var serviceCost = distance * 2 * service.costPerKm;
                 totalCost += serviceCost;
                 serviceCostDetails += service.name + ': ' + serviceCost.toFixed(2) + '元<br>';
                 if (service.low) {
