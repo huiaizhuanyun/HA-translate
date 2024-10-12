@@ -6,34 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>汇爱医疗救援护送</title>
 <style>
-    #signature-pad {
-    border: 2px solid #4a90e2;
-    border-radius: 5px;
-    background-color: #f7f7f7;
-    box-shadow: 0px 0px 8px #888;
-    margin-bottom: 20px;
-}
-    .button {
-    color: white;
-    background-color: #4a90e2;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.button:hover {
-    background-color: #357abd;
-}
-    .signature-pad--footer {
-    padding: 10px;
-    text-align: center;
-}
     body {
         font-family: 'Arial', sans-serif;
-        background-color: #f7f7f7;
+        background-color: #f0f2f5;
         margin: 0;
         padding: 20px;
         line-height: 1.6;
@@ -58,48 +33,60 @@
     }
     input[type="submit"] {
         margin-top: 20px;
-        padding: 10px 20px;
+        padding: 12px 24px;
         border: none;
         border-radius: 4px;
-        background-color: #5cb85c;
+        background-color: #4a90e2;
         color: white;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 18px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
     }
     input[type="submit"]:hover {
-        background-color: #4cae4c;
+        background-color: #357abd;
+        transform: scale(1.05);
     }
     #resultSection {
         margin-top: 20px;
-        background: #e9e9e9;
+        background: #ffffff;
         padding: 20px;
         border-radius: 8px;
-        #signature-pad {
-    border: 2px solid #4a90e2;
-    border-radius: 5px;
-    background-color: #f7f7f7;
-    box-shadow: 0px 0px 8px #888;
-    margin-bottom: 20px;
-}
-.button {
-    color: white;
-    background-color: #4a90e2;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.button:hover {
-    background-color: #357abd;
-}
-.signature-pad--footer {
-    padding: 10px;
-    text-align: center;
-}
-
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #signature-pad {
+        border: 2px solid #4a90e2;
+        border-radius: 5px;
+        background-color: #f7f7f7;
+        box-shadow: 0px 0px 8px #888;
+        margin-bottom: 20px;
+    }
+    .button {
+        color: white;
+        background-color: #4a90e2;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 24px;
+        margin: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .button:hover {
+        background-color: #357abd;
+        transform: scale(1.05);
+    }
+    .signature-pad--footer {
+        padding: 10px;
+        text-align: center;
+    }
+    .service-group {
+        margin-bottom: 20px;
+    }
+    .service-group h3 {
+        margin-bottom: 10px;
+        border-bottom: 2px solid #4a90e2;
+        display: inline-block;
+        padding-bottom: 5px;
     }
 </style>
 </head>
@@ -107,7 +94,7 @@
 <div style="text-align:center; margin-bottom: 30px;">
     <img src="汇爱转运(1)(1)(1)(1)(1).png" alt="公司Logo" width="300">
 </div>
-<h1></h1>
+
 <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
     <h3>转运车费标准（里程需按往返计）：</h3>
     <p>450元(含3KM)，多出部分9元/KM（48KM内）</p>
@@ -117,107 +104,107 @@
 </div>
 <form id="chargeCalculator">
     <label for="distance"> 输入公里数 (km):</label>
-    <input type="number" id="distance" name="distance"><br><br>
+    <input type="number" id="distance" name="distance" step="0.01" min="0"><br><br>
     
-    <h2>转运服务:</h2>
+    <div class="service-group">
+        <h2>转运服务:</h2>
+        
+        <input type="checkbox" id="toll" name="services" value="toll">
+        <label for="toll">路桥费（单程里程*0.5）</label><br>
+        
+        <input type="checkbox" id="non_reservation" name="services" value="non_reservation">
+        <label for="non_reservation">非预约用车费（需提前一天17点前预约，转运车费*0.1）</label><br>
     
-    <label for="toll">路桥费（单程里程*0.5）:</label>
-    <input type="checkbox" id="toll" name="services" value="toll"><br><br>
+        <input type="checkbox" id="beifen_reservation" name="services" value="beifen_reservation">
+        <label for="beifen_reservation">备份车辆随行（转运车费*0.6）</label><br>
+        
+        <input type="checkbox" id="yuanji_patient" name="services" value="yuanji_patient">
+        <label for="yuanji_patient">院际交接附加费（对接到急诊或指定病房，许昌内10元，许昌外30元）</label><br>
+        
+        <input type="checkbox" id="critical_patient" name="services" value="critical_patient">
+        <label for="critical_patient">无行为能力附加费（无意识病人，50KM内300元，72KM内400元，150KM内2元/KM，150KM外1元/KM）</label><br>
     
-    <label for="non_reservation">非预约用车费（需提前一天17点前预约，转运车费*0.1）:</label>
-    <input type="checkbox" id="non_reservation" name="services" value="non_reservation"><br><br>
-
-    <label for="beifen_reservation">备份车辆随行（转运车费*0.6）:</label>
-    <input type="checkbox" id="beifen_reservation" name="services" value="beifen_reservation"><br><br>
+        <input type="checkbox" id="ventilator" name="services" value="ventilator">
+        <label for="ventilator">呼吸机（20KM内800元，150KM内1000元，150KM外5元/KM）</label><br>
+        
+        <label for="medical_staff">医护随车:</label>
+        <select name="medical_staff" id="medical_staff">
+            <option value="none">不需要</option>
+            <option value="one">1位</option>
+            <option value="two">2位</option>
+            <option value="three">3位</option>
+        </select><br><br>
     
-    <label for="yuanji_patient">院际交接附加费（对接到急诊或指定病房，许昌内10元，许昌外30元）:</label>
-    <input type="checkbox" id="yuanji_patient" name="services" value="yuanji_patient"><br><br>
+        <label for="night_transfer">晚间转运费（20点-7点）:</label>
+        <select name="night_transfer" id="night_transfer">
+            <option value="none">无</option>
+            <option value="one">1人</option>
+            <option value="two">2人</option>
+        </select><br><br>
     
-    <label for="critical_patient">无行为能力附加费（无意识病人，50KM内300元，72KM内400元，150KM内2元/KM，150KM外1元/KM）</label>
-    <input type="checkbox" id="critical_patient" name="services" value="critical_patient"><br><br>
-
-    <label for="ventilator">呼吸机:（20KM内800元，150KM内1000元，150KM外5元/KM）</label>
-    <input type="checkbox" id="ventilator" name="services" value="ventilator"><br><br>
-    
-    <label for="medical_staff">医护随车:</label>
-    <select name="medical_staff" id="medical_staff">
-        <option value="none">不需要</option>
-        <option value="one">1位</option>
-        <option value="two">2位</option>
-        <option value="three">3位</option>
-    </select><br><br>
-
-    <label for="night_transfer">晚间转运费（20点-7点）:</label>
-    <select name="night_transfer" id="night_transfer">
-        <option value="none">无</option>
-        <option value="one">1人</option>
-        <option value="two">2人</option>
-    </select><br><br>
-
-    <label for="jiari_transfer">假日转运费（周六、周日、法定节假日）:</label>
-    <select name="jiari_transfer" id="jiari_transfer">
-        <option value="none">无</option>
-        <option value="one">1人</option>
-        <option value="two">2人</option>
-    </select><br><br>
-    
+        <label for="jiari_transfer">假日转运费（周六、周日、法定节假日）:</label>
+        <select name="jiari_transfer" id="jiari_transfer">
+            <option value="none">无</option>
+            <option value="one">1人</option>
+            <option value="two">2人</option>
+        </select><br><br>
+        
         <input type="checkbox" id="waiting_fee" name="services" value="waiting_fee">
         <label for="waiting_fee">等待费（预收300元，20min免费，超过40元/5min，不满5min按5min计）</label><br>
+    </div>
 
-    <h3>辅助服务:</h3>
-    <div>
+    <div class="service-group">
+        <h3>辅助服务:</h3>
         <input type="checkbox" id="oxygen" name="services" value="oxygen">
-        <label for="oxygen">吸氧费 （ 每公里1元）</label><br>
+        <label for="oxygen">吸氧费（每公里1元）</label><br>
         
         <input type="checkbox" id="ecg_monitoring" name="services" value="ecg_monitoring">
-        <label for="ecg_monitoring">心电监护 （ 每公里3元）</label><br>
+        <label for="ecg_monitoring">心电监护（每公里3元）</label><br>
         
         <input type="checkbox" id="infusion_pump" name="services" value="infusion_pump">
-        <label for="infusion_pump">微量泵 （ 每公里3元）</label><br>
+        <label for="infusion_pump">微量泵（每公里3元）</label><br>
         
         <input type="checkbox" id="sputum_suction_machine" name="services" value="sputum_suction_machine">
-        <label for="sputum_suction_machine">吸痰器 （ 100元/次）</label><br>
+        <label for="sputum_suction_machine">吸痰器（100元/次）</label><br>
         
         <input type="checkbox" id="handheld_respiratory_bag" name="services" value="handheld_respiratory_bag">
-        <label for="handheld_respiratory_bag">手持呼吸气囊 （ 200元/趟）</label><br>
+        <label for="handheld_respiratory_bag">手持呼吸气囊（200元/趟）</label><br>
         
         <input type="checkbox" id="disposable_nasal_cannula" name="services" value="disposable_nasal_cannula">
         <label for="disposable_nasal_cannula">一次性鼻导管（5元/根）</label><br>
         
         <input type="checkbox" id="defibrillator" name="services" value="defibrillator">
-        <label for="defibrillator">体外除颤仪 （850元/次）</label><br>
-        
-
+        <label for="defibrillator">体外除颤仪（850元/次）</label><br>
         
         <label for="stairs">上楼楼层数:</label>
-        <input type="number" id="stairs" name="stairs"><br>
-
-    <label for="space_blanket">太空被:</label>
-    <select name="space_blanket" id="space_blanket">
-        <option value="0">0条</option>
-        <option value="1">1条</option>
-        <option value="2">2条</option>
-    </select><br><br>
+        <input type="number" id="stairs" name="stairs" min="0"><br><br>
+    
+        <label for="space_blanket">太空被:</label>
+        <select name="space_blanket" id="space_blanket">
+            <option value="0">0条</option>
+            <option value="1">1条</option>
+            <option value="2">2条</option>
+        </select><br><br>
     </div>
     
     <input type="submit" value="计算费用">
 </form>
 
 <div id="resultSection"></div>
-    <h4>知悉收费标准和费用明细后，手写签名:</h4>
-    <img src="huiaishoukuan.jpg" alt="签名照片" width="300">
-    <canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas>
-    <button id="clear">清除签名</button>
-    <button id="save">保存签名</button>
-    
+<button id="subsidyButton" class="button" style="display:none;">汇爱公司公益补贴</button>
+
+<h4>知悉收费标准和费用明细后，手写签名:</h4>
+<img src="huiaishoukuan.jpg" alt="签名照片" width="300">
+<canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas>
+<button id="clear">清除签名</button>
+<button id="save">保存签名</button>
+
 <script>
-    window.onload = function() {
-        var canvas = document.getElementById('signature-pad');
-    // 调整canvas的内部尺寸以匹配其显示尺寸
+window.onload = function() {
+    var canvas = document.getElementById('signature-pad');
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
     
-    // 初始化SignaturePad
     const signaturePad = new SignaturePad(canvas);
 
     document.getElementById('clear').addEventListener('click', function() {
@@ -229,21 +216,19 @@
             alert("请签名后再保存");
         } else {
             const data = signaturePad.toDataURL();
-            console.log(data);  // 这里，您可以看到签名的数据URL
-            // 根据您的需要进一步处理这个数据，比如发送到服务器或保存到本地。
+            console.log(data);  // 您可以在此处理签名数据
         }
     });
 }
-    
+
 document.getElementById('chargeCalculator').onsubmit = function(event) {
     event.preventDefault();
     
-    // 获取用户输入的公里数
     var distance = parseFloat(document.getElementById('distance').value);
     var totalCost = 0;
     var serviceCostDetails = '';
+    var lowServices = [];
     
-    // 校验公里数输入
     if (isNaN(distance) || distance < 0) {
         alert("请输入有效的公里数。");
         return;
@@ -254,33 +239,40 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     if (distance <= 48) {
         transferCost = 450 + Math.max(0, (distance * 2 - 3)) * 9;
     } else if (distance <= 72) {
-        transferCost = distance*0+1300;
-     } else {
+        transferCost = 1300;
+    } else {
         transferCost = distance * 2 * 9;
     }
-    serviceCostDetails += '转运车费: ' + transferCost + '元<br>';
     totalCost += transferCost;
+    serviceCostDetails += '转运车费: ' + transferCost.toFixed(2) + '元<br>';
 
     // 路桥费计算
     if (document.getElementById('toll').checked) {
-        totalCost += distance * 0.5;
-        serviceCostDetails += '路桥费: ' + (distance * 0.5) + '元<br>';
+        var tollFee = distance * 0.5;
+        totalCost += tollFee;
+        serviceCostDetails += '路桥费: ' + tollFee.toFixed(2) + '元<br>';
     }
 
-     // 非预约用车费计算
+    // 非预约用车费计算
     if (document.getElementById('non_reservation').checked) {
-        var nonReservationFee = transferCost * 0.1;  // 使用转运车费计算
-        totalCost += nonReservationFee;
-        serviceCostDetails += '非预约用车费（低）: ' + nonReservationFee + '元<br>';
+        var nonReservationFee = transferCost * 0.1;
+        if (nonReservationFee > 0) {
+            totalCost += nonReservationFee;
+            serviceCostDetails += '非预约用车费（低）: ' + nonReservationFee.toFixed(2) + '元<br>';
+            lowServices.push({name: '非预约用车费（低）', cost: nonReservationFee});
+        }
     }
 
     // 备份车费计算
     if (document.getElementById('beifen_reservation').checked) {
-        var beifen_reservationFee = transferCost * 0.6+distance * 0.5; 
-        totalCost += beifen_reservationFee;
-        serviceCostDetails += '备份车辆随行: ' + beifen_reservationFee + '元<br>';
+        var beifen_reservationFee = transferCost * 0.6 + distance * 0.5;
+        if (beifen_reservationFee > 0) {
+            totalCost += beifen_reservationFee;
+            serviceCostDetails += '备份车辆随行: ' + beifen_reservationFee.toFixed(2) + '元<br>';
+        }
     }
-     // 院际附加费计算
+
+    // 院际附加费计算
     var yuanji_patientFee = 0;
     if (document.getElementById('yuanji_patient').checked) {
         if (distance <= 50) {
@@ -288,11 +280,14 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         } else {
             yuanji_patientFee = 30;
         }
+        if (yuanji_patientFee > 0) {
+            totalCost += yuanji_patientFee;
+            serviceCostDetails += '院际交接附加费（低）: ' + yuanji_patientFee.toFixed(2) + '元<br>';
+            lowServices.push({name: '院际交接附加费（低）', cost: yuanji_patientFee});
+        }
     }
-    totalCost += yuanji_patientFee;
-    serviceCostDetails += '院际交接附加费（低）: ' + yuanji_patientFee + '元<br>';
-    
-    // 濒危病人附加费计算
+
+    // 无行为能力病人附加费计算
     var criticalPatientFee = 0;
     if (document.getElementById('critical_patient').checked) {
         if (distance <= 50) {
@@ -300,14 +295,15 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         } else if (distance <= 72) {
             criticalPatientFee = 400;
         } else if (distance <= 150) {
-            criticalPatientFee = distance * 2*2;
+            criticalPatientFee = distance * 2 * 2;
         } else {
-            criticalPatientFee = distance*2;
+            criticalPatientFee = distance * 2;
+        }
+        if (criticalPatientFee > 0) {
+            totalCost += criticalPatientFee;
+            serviceCostDetails += '无行为能力病人附加费: ' + criticalPatientFee.toFixed(2) + '元<br>';
         }
     }
-    totalCost += criticalPatientFee;
-    serviceCostDetails += '无行为能力病人附加费: ' + criticalPatientFee + '元<br>';
-
 
     // 呼吸机费用计算
     var ventilatorCost = 0;
@@ -317,10 +313,12 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         } else if (distance <= 150) {
             ventilatorCost = 1000;
         } else {
-            ventilatorCost = 150 * 5 + (distance - 150) * 5;
+            ventilatorCost = distance * 5 * 2;
         }
-        totalCost += ventilatorCost;
-        serviceCostDetails += '呼吸机费用: ' + ventilatorCost + '元<br>';
+        if (ventilatorCost > 0) {
+            totalCost += ventilatorCost;
+            serviceCostDetails += '呼吸机费用: ' + ventilatorCost.toFixed(2) + '元<br>';
+        }
     }
 
     // 医护随车费用计算
@@ -339,16 +337,18 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
         } else {
             perPersonCost = 500 + (distance - 400);
         }
-    var numOfStaff = 1; // 默认为 1 位医护
-    if (medicalStaffOption === 'two') {
-        numOfStaff = 2; // 若选择 2 位
-    } else if (medicalStaffOption === 'three') {
-        numOfStaff = 3; // 若选择 3 位
+        var numOfStaff = 1;
+        if (medicalStaffOption === 'two') {
+            numOfStaff = 2;
+        } else if (medicalStaffOption === 'three') {
+            numOfStaff = 3;
+        }
+        medicalStaffCost = numOfStaff * perPersonCost;
+        if (medicalStaffCost > 0) {
+            totalCost += medicalStaffCost;
+            serviceCostDetails += '医护随车费用: ' + medicalStaffCost.toFixed(2) + '元<br>';
+        }
     }
-    medicalStaffCost = numOfStaff * perPersonCost; // 正确乘以人数
-    totalCost += medicalStaffCost;
-    serviceCostDetails += '医护随车费用: ' + medicalStaffCost + '元<br>';
-}
 
     // 晚间转运费计算
     var nightTransferOption = document.getElementById('night_transfer').value;
@@ -358,8 +358,11 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     } else if (nightTransferOption === 'two') {
         nightTransferCost = 200;
     }
-    totalCost += nightTransferCost;
-    serviceCostDetails += '晚间转运费（低）: ' + nightTransferCost + '元<br>';
+    if (nightTransferCost > 0) {
+        totalCost += nightTransferCost;
+        serviceCostDetails += '晚间转运费（低）: ' + nightTransferCost.toFixed(2) + '元<br>';
+        lowServices.push({name: '晚间转运费（低）', cost: nightTransferCost});
+    }
 
     // 假日转运费计算
     var jiariTransferOption = document.getElementById('jiari_transfer').value;
@@ -369,37 +372,50 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     } else if (jiariTransferOption === 'two') {
         jiariTransferCost = 100;
     }
-    totalCost += jiariTransferCost;
-    serviceCostDetails += '假日转运费（低）: ' + jiariTransferCost + '元<br>';
+    if (jiariTransferCost > 0) {
+        totalCost += jiariTransferCost;
+        serviceCostDetails += '假日转运费（低）: ' + jiariTransferCost.toFixed(2) + '元<br>';
+        lowServices.push({name: '假日转运费（低）', cost: jiariTransferCost});
+    }
 
-    // 其他固定费用服务
+    // 辅助服务计算
     var additionalServices = [
-        {id: 'oxygen', costPerKm: 1, name: '吸氧费（低）'},
-        {id: 'ecg_monitoring', costPerKm: 3, name: '心电监护'},
-        {id: 'infusion_pump', costPerKm: 3, name: '微量泵'}
+        {id: 'oxygen', costPerKm: 1, name: '吸氧费（低）', low: true},
+        {id: 'ecg_monitoring', costPerKm: 3, name: '心电监护', low: false},
+        {id: 'infusion_pump', costPerKm: 3, name: '微量泵', low: false}
     ];
 
     additionalServices.forEach(function(service) {
         if (document.getElementById(service.id).checked) {
-            var serviceCost = distance * service.costPerKm;
-            totalCost += serviceCost;
-            serviceCostDetails += service.name + ': ' + serviceCost + '元<br>';
+            var serviceCost = distance * 2 * service.costPerKm;
+            if (serviceCost > 0) {
+                totalCost += serviceCost;
+                serviceCostDetails += service.name + ': ' + serviceCost.toFixed(2) + '元<br>';
+                if (service.low) {
+                    lowServices.push({name: service.name, cost: serviceCost});
+                }
+            }
         }
     });
 
     // 固定费用服务
     var fixedServices = [
-        {id: 'sputum_suction_machine', cost: 100, name: '吸痰器'},
-        {id: 'handheld_respiratory_bag', cost: 200, name: '手持呼吸气囊'},
-        {id: 'disposable_nasal_cannula', cost: 5, name: '一次性鼻导管（低）'},
-        {id: 'defibrillator', cost: 850, name: '体外除颤仪'},
-        {id: 'waiting_fee', cost: 300, name: '等待费'}
+        {id: 'sputum_suction_machine', cost: 100, name: '吸痰器', low: false},
+        {id: 'handheld_respiratory_bag', cost: 200, name: '手持呼吸气囊', low: false},
+        {id: 'disposable_nasal_cannula', cost: 5, name: '一次性鼻导管（低）', low: true},
+        {id: 'defibrillator', cost: 850, name: '体外除颤仪', low: false},
+        {id: 'waiting_fee', cost: 300, name: '等待费', low: false}
     ];
 
     fixedServices.forEach(function(service) {
         if (document.getElementById(service.id).checked) {
-            totalCost += service.cost;
-            serviceCostDetails += service.name + ': ' + service.cost + '元<br>';
+            if (service.cost > 0) {
+                totalCost += service.cost;
+                serviceCostDetails += service.name + ': ' + service.cost.toFixed(2) + '元<br>';
+                if (service.low) {
+                    lowServices.push({name: service.name, cost: service.cost});
+                }
+            }
         }
     });
 
@@ -408,19 +424,47 @@ document.getElementById('chargeCalculator').onsubmit = function(event) {
     if (!isNaN(floorNumber) && floorNumber > 1) {
         var stairsFee = (floorNumber - 1) * 18;
         totalCost += stairsFee;
-        serviceCostDetails += '上楼费: ' + stairsFee + '元<br>';
+        serviceCostDetails += '上楼费: ' + stairsFee.toFixed(2) + '元<br>';
     }
 
     // 太空被费用计算
     var spaceBlanketOption = parseInt(document.getElementById('space_blanket').value, 10);
-    var spaceBlanketCost = spaceBlanketOption * 100; // 每条100元
-    totalCost += spaceBlanketCost;
-    serviceCostDetails += '太空被: ' + spaceBlanketCost + '元<br>';
+    var spaceBlanketCost = spaceBlanketOption * 100;
+    if (spaceBlanketCost > 0) {
+        totalCost += spaceBlanketCost;
+        serviceCostDetails += '太空被: ' + spaceBlanketCost.toFixed(2) + '元<br>';
+    }
 
     // 显示费用明细和总费用
     var resultSection = document.getElementById('resultSection');
-    resultSection.innerHTML = '<h2>费用明细:</h2>' + serviceCostDetails + '<h2>总费用: ' + totalCost + '元</h2>';
+    resultSection.innerHTML = '<h2>费用明细:</h2>' + serviceCostDetails + '<h2>总费用: ' + totalCost.toFixed(2) + '元</h2>';
+
+    // 显示公益补贴按钮
+    if (lowServices.length > 0) {
+        document.getElementById('subsidyButton').style.display = 'inline-block';
+    } else {
+        document.getElementById('subsidyButton').style.display = 'none';
+    }
 };
+
+document.getElementById('subsidyButton').addEventListener('click', function() {
+    var totalSubsidy = 0;
+    lowServices.forEach(function(service) {
+        totalSubsidy += service.cost;
+    });
+    var newTotalCost = totalCost - totalSubsidy;
+    // 更新显示
+    var subsidyDetails = '<h2>补贴明细:</h2>';
+    lowServices.forEach(function(service) {
+        subsidyDetails += service.name + ': -' + service.cost.toFixed(2) + '元<br>';
+    });
+    subsidyDetails += '<h2>补贴金额: ' + totalSubsidy.toFixed(2) + '元</h2>';
+    subsidyDetails += '<h2>补贴后总费用: ' + newTotalCost.toFixed(2) + '元</h2>';
+    document.getElementById('resultSection').innerHTML += subsidyDetails;
+    // 隐藏补贴按钮，防止重复点击
+    document.getElementById('subsidyButton').style.display = 'none';
+});
 </script>
 </body>
 </html>
+
