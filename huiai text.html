@@ -341,6 +341,9 @@
 <button id="clear" class="button">清除签名</button>
 <button id="savePdf" class="button">保存为 PDF</button>
 
+<!-- 在页面底部添加当前日期和时间 -->
+<div id="currentDateTime" style="text-align:center; margin-top:20px; font-size:16px;"></div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var canvas = document.getElementById('signature-pad');
@@ -705,6 +708,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // 添加显示当前日期和时间的功能
+    function updateDateTime() {
+        var now = new Date();
+        var formattedDateTime = now.getFullYear() + '年' +
+                                (now.getMonth() + 1) + '月' +
+                                now.getDate() + '日 ' +
+                                now.getHours() + ':' +
+                                (now.getMinutes() < 10 ? '0' : '') + now.getMinutes() + ':' +
+                                (now.getSeconds() < 10 ? '0' : '') + now.getSeconds();
+        document.getElementById('currentDateTime').innerText = '当前日期和时间：' + formattedDateTime;
+    }
+
+    updateDateTime(); // 初始化时更新一次
+    setInterval(updateDateTime, 1000); // 每秒更新一次
+
 });
 </script>
 </body>
